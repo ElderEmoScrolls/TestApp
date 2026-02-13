@@ -117,6 +117,13 @@
                 transform: translateY(0);
             }
         }
+
+        .phase-indicator {
+            font-size: 0.85em;
+            color: #764ba2;
+            margin-top: 5px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -124,36 +131,71 @@
         <h1>🎮 Test Game</h1>
         <div class="question" id="question">Would you like to test the app?</div>
         <div class="language-indicator" id="language">English</div>
+        <div class="phase-indicator" id="phase">Phase 1: Polite Inquiries</div>
         <button class="test-button" onclick="nextQuestion()">TEST</button>
-        <div class="counter" id="counter">Question: 1 / 20</div>
+        <div class="counter" id="counter">Question: 1 / 40</div>
         <div class="response" id="response"></div>
     </div>
 
     <script>
-        const questions = [
-            { text: "Would you like to test the app?", language: "English" },
-            { text: "¿Te gustaría probar la aplicación?", language: "Spanish" },
-            { text: "Voulez-vous tester l'application?", language: "French" },
-            { text: "Möchtest du die App testen?", language: "German" },
-            { text: "Vuoi testare l'app?", language: "Italian" },
-            { text: "Gostaria de testar o aplicativo?", language: "Portuguese" },
-            { text: "Хотите ли вы протестировать приложение?", language: "Russian" },
-            { text: "アプリをテストしたいですか？", language: "Japanese" },
-            { text: "你想测试这个应用吗？", language: "Chinese (Simplified)" },
-            { text: "앱을 테스트하고 싶으신가요?", language: "Korean" },
-            { text: "Wil je de app testen?", language: "Dutch" },
-            { text: "Vill du testa appen?", language: "Swedish" },
-            { text: "Ønsker du å teste appen?", language: "Norwegian" },
-            { text: "Vil du teste appen?", language: "Danish" },
-            { text: "Chcesz przetestować aplikację?", language: "Polish" },
-            { text: "Chcete vyzkoušet aplikaci?", language: "Czech" },
-            { text: "Szeretnél tesztelni az alkalmazást?", language: "Hungarian" },
-            { text: "Θέλετε να δοκιμάσετε την εφαρμογή;", language: "Greek" },
-            { text: "هل تريد اختبار التطبيق؟", language: "Arabic" },
-            { text: "האם תרצה לבדוק את האפליקציה?", language: "Hebrew" }
+        const allQuestions = [
+            // Phase 1: Original 20 - Polite Inquiries in Different Languages
+            { text: "Would you like to test the app?", language: "English", phase: "Phase 1: Polite Inquiries" },
+            { text: "¿Te gustaría probar la aplicación?", language: "Spanish", phase: "Phase 1: Polite Inquiries" },
+            { text: "Voulez-vous tester l'application?", language: "French", phase: "Phase 1: Polite Inquiries" },
+            { text: "Möchtest du die App testen?", language: "German", phase: "Phase 1: Polite Inquiries" },
+            { text: "Vuoi testare l'app?", language: "Italian", phase: "Phase 1: Polite Inquiries" },
+            { text: "Gostaria de testar o aplicativo?", language: "Portuguese", phase: "Phase 1: Polite Inquiries" },
+            { text: "Хотите ли вы протестировать приложение?", language: "Russian", phase: "Phase 1: Polite Inquiries" },
+            { text: "アプリをテストしたいですか？", language: "Japanese", phase: "Phase 1: Polite Inquiries" },
+            { text: "你想测试这个应用吗？", language: "Chinese (Simplified)", phase: "Phase 1: Polite Inquiries" },
+            { text: "앱을 테스트하고 싶으신가요?", language: "Korean", phase: "Phase 1: Polite Inquiries" },
+            { text: "Wil je de app testen?", language: "Dutch", phase: "Phase 1: Polite Inquiries" },
+            { text: "Vill du testa appen?", language: "Swedish", phase: "Phase 1: Polite Inquiries" },
+            { text: "Ønsker du å teste appen?", language: "Norwegian", phase: "Phase 1: Polite Inquiries" },
+            { text: "Vil du teste appen?", language: "Danish", phase: "Phase 1: Polite Inquiries" },
+            { text: "Chcesz przetestować aplikację?", language: "Polish", phase: "Phase 1: Polite Inquiries" },
+            { text: "Chcete vyzkoušet aplikaci?", language: "Czech", phase: "Phase 1: Polite Inquiries" },
+            { text: "Szeretnél tesztelni az alkalmazást?", language: "Hungarian", phase: "Phase 1: Polite Inquiries" },
+            { text: "Θέλετε να δοκιμάσετε την εφαρμογή;", language: "Greek", phase: "Phase 1: Polite Inquiries" },
+            { text: "هل تريد اختبار التطبيق؟", language: "Arabic", phase: "Phase 1: Polite Inquiries" },
+            { text: "האם תרצה לבדוק את האפליקציה?", language: "Hebrew", phase: "Phase 1: Polite Inquiries" },
+
+            // Phase 2: Sarcastic/Unhinged (but SFW) versions
+            { text: "Are you REALLY sure you want to test this app? Like, genuinely sure?", language: "Existential Crisis", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "Bold of you to assume this app is actually finished. You still in?", language: "Reality Check", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "I mean... do YOU think it's ready? Be honest.", language: "Philosophical", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "Listen, I'm not saying it's going to explode, but... are you SURE?", language: "Ominous Warning", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "One last chance to back out before things get weird. You in or out?", language: "Last Warning", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "Absolutely certain? Because I can't undo this. Well, I can, but like... are you sure?", language: "Dramatic", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "What if I told you the bugs are features? Still want to proceed?", language: "Developer Logic", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "Your funeral. I mean... your choice! Sure you want to test?", language: "Cheerfully Ominous", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "I tested this myself and I'm not even sure. But YOU'RE brave. Go ahead?", language: "Suspicious Confidence", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "Remember: if it breaks, you didn't see anything. Test it?", language: "Plausible Deniability", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "This app has more surprises than you think. Still interested?", language: "Cryptic Hint", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "Are you ABSOLUTELY, POSITIVELY, 100% sure? Like, pinky promise sure?", language: "Cartoonishly Cautious", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "Buckle up, buttercup. You ready to test this bad boy?", language: "Overly Confident", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "If this works, I'll be as shocked as you are. Test it anyway?", language: "Honest Assessment", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "I have a good feeling about this... or is it indigestion? Test anyway?", language: "Questionable Intuition", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "This is either genius or a disaster. No in-between. You sure?", language: "Binary Outcome", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "I haven't slept in 48 hours. You SURE you want me testing alongside you?", language: "Concerning Background", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "This app sparks joy... or it sparks something. Test it?", language: "Marie Kondo Energy", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "No take-backs. You understand that, right? Still want to test?", language: "Binding Contract Vibes", phase: "Phase 2: Are You REALLY Sure?" },
+            { text: "Alright, let's do this. We live once. Test the app?", language: "Yolo Programmer", phase: "Phase 2: Are You REALLY Sure?" }
         ];
 
+        let questions = [];
         let currentIndex = 0;
+
+        // Fisher-Yates shuffle algorithm
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
 
         function nextQuestion() {
             const responseDiv = document.getElementById('response');
@@ -171,10 +213,12 @@
             const question = questions[currentIndex];
             document.getElementById('question').textContent = question.text;
             document.getElementById('language').textContent = question.language;
+            document.getElementById('phase').textContent = question.phase;
             document.getElementById('counter').textContent = `Question: ${currentIndex + 1} / ${questions.length}`;
         }
 
-        // Initialize
+        // Initialize with shuffled questions
+        questions = shuffleArray(allQuestions);
         updateDisplay();
     </script>
 </body>
